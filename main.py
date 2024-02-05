@@ -11,9 +11,6 @@ UDP_IP = '127.0.0.1'
 UDP_PORT = 5000
 DATA_JSON = pathlib.Path('storage/data.json')
 
-def handle_data(data):
-    # Ваш код обробки даних тут
-    print(data)
 
 def run_udp_server(ip,port):
     sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
@@ -50,9 +47,9 @@ def run_udp_client(ip,port,message):
     server = ip,port
     data = message.encode()
     sock.sendto(data,server)
-    #print(f'Send Data: {data.decode()} to Server')
+    
     response, address = sock.recvfrom(1024)
-    #print(f'Responses data: {response.decode()} from address: {address}')
+    
     sock.close()
 
 
