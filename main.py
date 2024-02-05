@@ -6,6 +6,7 @@ from threading import Thread
 from datetime import datetime
 import json
 import pathlib
+import os
 UDP_IP = '127.0.0.1'
 UDP_PORT = 5000
 DATA_JSON = pathlib.Path('storage/data.json')
@@ -112,7 +113,14 @@ def run_http_server(server_class=HTTPServer,handler_class=HTTPHandler):
         http.server_close()
 
 
-if __name__ == '__main__':
+if __name__ == '__main__':    
+    storage_directory = 'storage'
+    os.makedirs(storage_directory, exist_ok=True)
+
+    data_file_path = os.path.join(storage_directory, 'data.json')
+    if not os.path.exists(data_file_path):
+        with open(data_file_path, 'w') as data_file:
+            data_file.write('{}')
     http_server_thread = Thread(target=run_http_server, args=(HTTPServer,HTTPHandler))
     udp_server_thread = Thread(target=run_udp_server,args=(UDP_IP,UDP_PORT,))
     http_server_thread.start()
